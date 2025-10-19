@@ -26,7 +26,7 @@ const { DateTime } = require("luxon");
     const SERVER = (process.env.NTFY_SERVER || "https://ntfy.sh").replace(/\/$/, "");
 
     // Testing helper: set BYPASS_GATE="1" in workflow env to force an immediate send
-    const BYPASS_GATE = process.env.BYPASS_GATE = "1";
+    const BYPASS_GATE = process.env.BYPASS_GATE === "1";
 
     if (!TOPIC) {
       console.error("Missing NTFY_TOPIC env var (topic name only, no https:// prefix).");
@@ -145,6 +145,7 @@ if (!shouldSend) {
     process.exit(1);
   }
 })();
+
 
 
 
