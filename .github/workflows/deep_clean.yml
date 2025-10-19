@@ -28,4 +28,4 @@ jobs:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           # Optional: point to your own server if you self-host ntfy
           # NTFY_SERVER: ${{ secrets.NTFY_SERVER }}
-        run: node scripts/deep_clean.js
+        run: node deep_clean.js
