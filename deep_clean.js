@@ -30,8 +30,8 @@ if (!NTFY_TOPIC) {
 // Figure out local NY time now, and only send exactly at 9:00 AM Saturday
 const nowNY = DateTime.now().setZone("America/New_York");
 const isSaturday = nowNY.weekday === 6; // 1=Mon ... 6=Sat 7=Sun
-//const isNineSharp = nowNY.hour === 9 && nowNY.minute === 0;
-const isNineSharp = true;
+const isNineSharp = nowNY.hour === 9 && nowNY.minute === 0;
+
 
 if (!isSaturday || !isNineSharp) {
   console.log(`Gate: Not 9:00 AM Saturday in NY (now: ${nowNY.toISO()}). Exiting.`);
@@ -129,4 +129,5 @@ if (!resp.ok) {
   process.exit(1);
 }
 console.log(`Sent ntfy: ${title}`);
+
 
