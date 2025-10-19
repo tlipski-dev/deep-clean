@@ -2,8 +2,8 @@ name: Saturday Deep Clean
 
 on:
   schedule:
-    # Run at :00 past 13:00 and 14:00 UTC on Saturdays.
-    # The script gates to only send at 9:00 AM America/New_York.
+    # 9:00 AM New York
+    # EDT: 13:00 UTC, EST: 14:00 UTC
     - cron: "0 13 * * 6"
     - cron: "0 14 * * 6"
   workflow_dispatch: {}
@@ -12,14 +12,23 @@ jobs:
   send:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: npm install luxon
-      - name: Run rotation script
-        env:
-          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}   # topic ONLY, no https://ntfy.sh/
-          BYPASS_GATE: "1"                        # <— TEMP: forces send now
-        run: node deep_clean.js
 
+      - name: Install luxon
+        run: npm install luxon
+
+      - name: Show workspace (once, for sanity)
+        run: ls -la
+
+      - name: Run weekly rotation
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}   # topic ONLY (no https://)
+          # NTFY_SERVER: ${{ secrets.NTFY_SERVER }}  # only if self hosted
+          # BYPASS_GATE: "1"  # <- uncomment for a one-time immediate test
+        run: node deep_clean.js
