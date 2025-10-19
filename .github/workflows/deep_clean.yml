@@ -21,5 +21,5 @@ jobs:
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}   # topic ONLY, no https://ntfy.sh/
           BYPASS_GATE: "1"                        # <— TEMP: forces send now
-        run: node scripts/deep_clean.js
+        run: node deep_clean.js
 
