@@ -1,0 +1,25 @@
+name: ntfy Test
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Show workspace (sanity check)
+        run: ls -la
+
+      - name: Send ntfy test
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}   # topic ONLY, e.g. deepclean-3f7b9a
+          # NTFY_SERVER: ${{ secrets.NTFY_SERVER }}  # optional if you self-host
+        run: node ntfy_test.js
