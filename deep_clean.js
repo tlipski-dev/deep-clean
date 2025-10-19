@@ -35,14 +35,18 @@ const { DateTime } = require("luxon");
 
     // ---- Time gating (America/New_York) ----
     const nowNY = DateTime.now().setZone("America/New_York");
-    const isSaturday  = nowNY.weekday === 6; // 1=Mon..6=Sat..7=Sun
-    const isNineSharp = BYPASS_GATE || (nowNY.hour === 9 && nowNY.minute === 0);
+const isSaturday  = nowNY.weekday === 6;                // 1=Mon .. 6=Sat
+const isNineSharp = (nowNY.hour === 9 && nowNY.minute === 0);
 
-    console.log(`Now NY: ${nowNY.toISO()} | Saturday=${isSaturday} | 9:00=${isNineSharp} | BYPASS=${BYPASS_GATE}`);
-    if (!isSaturday || !isNineSharp) {
-      console.log("Gate: not 9:00 AM Saturday in New York; exiting without send.");
-      process.exit(0);
-    }
+// If BYPASS is set, send immediately; otherwise only at 9:00 AM Saturday
+const shouldSend = BYPASS_GATE || (isSaturday && isNineSharp);
+
+console.log(`Now NY: ${nowNY.toISO()} | Saturday=${isSaturday} | 9:00=${isNineSharp} | BYPASS=${BYPASS_GATE} | shouldSend=${shouldSend}`);
+
+if (!shouldSend) {
+  console.log("Gate: not 9:00 AM Saturday in New York; exiting without send.");
+  process.exit(0);
+}
 
     // ---- Rotation index ----
     const startNY = DateTime.fromISO(START_DATE, { zone: "America/New_York" }).startOf("day");
@@ -141,5 +145,6 @@ const { DateTime } = require("luxon");
     process.exit(1);
   }
 })();
+
 
 
