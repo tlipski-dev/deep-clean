@@ -25,7 +25,7 @@ const { DateTime } = require("luxon");
     const TOPIC  = process.env.NTFY_TOPIC; // topic ONLY (e.g., deepclean-3f7b9a)
     const SERVER = (process.env.NTFY_SERVER || "https://ntfy.sh").replace(/\/$/, "");
 
-    // Testing helper: set BYPASS_GATE="1" in workflow env to force an immediate send
+     Testing helper: set BYPASS_GATE="1" in workflow env to force an immediate send
     const BYPASS_GATE = process.env.BYPASS_GATE === "1";
 
     if (!TOPIC) {
@@ -141,3 +141,4 @@ const { DateTime } = require("luxon");
     process.exit(1);
   }
 })();
+
