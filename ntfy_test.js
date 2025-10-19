@@ -1,7 +1,6 @@
-// Minimal ntfy test (CommonJS-friendly; no package.json needed)
 (async () => {
   try {
-    const topic  = process.env.NTFY_TOPIC;              // e.g., deepclean-3f7b9a
+    const topic  = process.env.NTFY_TOPIC;               // e.g., deepclean-3f7b9a
     const server = (process.env.NTFY_SERVER || "https://ntfy.sh").replace(/\/$/, "");
 
     if (!topic) {
@@ -9,15 +8,15 @@
       process.exit(1);
     }
 
-    const title = "✅ GitHub → ntfy test";
-    const body  = "If you see this on your phone, the pipeline works.";
+    const title = "GitHub to ntfy test";
+    const body  = "If you see this, the pipeline works.";
 
     const url = `${server}/${encodeURIComponent(topic)}`;
     console.log(`POST → ${url}`);
 
     const resp = await fetch(url, {
       method: "POST",
-      headers: { "Title": title, "Priority": "4", "Tags": "white_check_mark,rocket" },
+      headers: { "Title": title, "Priority": "4" },
       body
     });
 
@@ -25,9 +24,9 @@
     console.log(`Response: ${resp.status} ${text.slice(0,120)}`);
     if (!resp.ok) process.exit(1);
 
-    console.log("✅ Sent push via ntfy successfully.");
+    console.log("Sent push via ntfy successfully.");
   } catch (err) {
-    console.error("❌ Error:", err?.message || err);
+    console.error("Error:", err?.message || err);
     process.exit(1);
   }
 })();
