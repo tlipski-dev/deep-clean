@@ -12,29 +12,6 @@ jobs:
   send:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Install luxon
-        run: npm install luxon
-
-      - name: Run rotation script
-        env:
-          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-          # Optional: point to your own server if you self-host ntfy
-          # NTFY_SERVER: ${{ secrets.NTFY_SERVER }}
-        run: node deep_clean.js
-
-      # .github/workflows/deep-clean.yml
-jobs:
-  send:
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
